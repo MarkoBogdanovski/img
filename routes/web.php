@@ -17,7 +17,7 @@ Route::get('/', 'ImageController@index');
 Route::post('/', 'ImageController@store');
 Route::delete('/{uuid}', 'ImageController@destroy');
 Route::post('/zipfiles', 'ImageController@zipFiles');
-Route::get('/download/{image}', 'ImageController@download');
+Route::get('/download/{dir}/{image}', 'ImageController@download');
 Route::get('/downloadZip/{file}', 'ImageController@downloadZip');
 
 Route::get('/help', function () {

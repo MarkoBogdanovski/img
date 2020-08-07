@@ -47,9 +47,9 @@ class ImageController extends Controller
         return $zipFiles;
     }
 
-    public function download(Request $request, $image) 
+    public function download(Request $request, $dir, $image) 
     {
-        return Storage::download('public/' . $image);
+        return Storage::download('public/' . $dir . "/" . $image);
     }
 
     public function downloadZip(Request $request, $file) 

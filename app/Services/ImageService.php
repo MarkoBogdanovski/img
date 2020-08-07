@@ -24,6 +24,9 @@ class ImageService extends BaseService
      */
     public function uploadImage(Request $request) 
     {
+        $sid = session()->getId();
+        Storage::makeDirectory("public/" . $sid);
+
         $validated = $request->validate([
             'image' => 'mimes:jpg,jpeg,png,gif,webp|max:10000',
         ]);
@@ -34,8 +37,8 @@ class ImageService extends BaseService
         $uuid = Uuid::generate(4);
         $fullName = $name[0] . "-" . $uuid .".".$extension;
 
-        $request->image->storeAs('/public', $fullName);
-        $url = Storage::url($fullName);
+        $request->image->storeAs('/public/' . $sid, $fullName);
+        $url = Storage::url($sid . "/" . $fullName);
 
         $file = Images::create([
             'uuid' => $uuid->string,
