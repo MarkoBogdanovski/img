@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'ImageController@index');
 Route::post('/', 'ImageController@store');
+Route::delete('/{uuid}', 'ImageController@destroy');
 Route::post('/zipfiles', 'ImageController@zipFiles');
 Route::get('/download/{image}', 'ImageController@download');
 Route::get('/downloadZip/{file}', 'ImageController@downloadZip');
-Route::get('/delete/{uuid}', 'ImageController@destroy');
 
 Route::get('/help', function () {
     return phpinfo();

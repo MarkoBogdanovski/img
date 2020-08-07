@@ -54,8 +54,12 @@
                                     <td class="cs-p-1 align-middle">{{ $image['size'] }}</td>
                                     <td class="cs-p-1 align-middle">{{ $image['date'] }}</td>
                                     <td class="cs-p-1 align-middle">
-                                        <a href="download/{{ $image['fullName'] }}" target="_blank"><i class="las la-file-download"></i></a>
-                                        <a href="/delete/{{ $image['uuid'] }}"><i class="las la-trash"></i></a>
+                                        <form id="logout-form" action="/{{ $image['uuid'] }}" method="POST" class="d-inline-flex p-0 m-0">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="DELETE" />
+                                            <a href="download/{{ $image['fullName'] }}" target="_blank"><i class="las la-file-download"></i></a>
+                                            <button type="submit" class="btn btn-link p-0 m-0"><i class="las la-trash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
