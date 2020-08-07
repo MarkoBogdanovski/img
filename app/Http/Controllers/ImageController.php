@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\ImageService;
+use Session;
+use Storage;
+
+class ImageController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(ImageService $imageService)
+    {
+         try {
+            $images = $imageService->all();
+            return view('home')->with('images', $images);
+            //return ['statusCode' => 200, 'data' => $data];
+        } catch (\Exception $e) {
+            return ['statusCode' => 403, 'error' => $e->getMessage()];
+        }
+    }
+
+    public function store(Request $request, ImageService $imageService) {
+        if ($request->hasFile('image')) {
+            if ($request->file('image')->isValid()) {
+                try {
+                    $imageService->uploadImage($request);
+                    Session::flash('success', "Success!");
+                    return \Redirect::back();
+                } catch (Exception $e) {
+                    return $e->getMessage();
+                }
+            }
+        }
+        abort(500, 'Could not upload image :(');
+    }
+
+    public function download(Request $request, $image) {
+        return Storage::download('public/' . $image);
+    }
+}

@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', 'ImageController@index');
+Route::post('/', 'ImageController@store');
+Route::get('/download/{image}', 'ImageController@download');
+
+Route::get('/home', function () {
     return view('welcome');
 });
