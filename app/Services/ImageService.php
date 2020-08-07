@@ -7,6 +7,7 @@ use App\Services\BaseService;
 use App\Models\Images;
 use Webpatser\Uuid\Uuid;
 use Storage;
+use Zip;
 
 class ImageService extends BaseService
 {
@@ -45,7 +46,31 @@ class ImageService extends BaseService
         ]);
     }
 
-    public function all() {
+    public function zipFiles($array) 
+    {
+        $images = Images::whereIn('uuid', $array['files'])->get();
+
+        Storage::makeDirectory("public/zip");
+        
+        $fileName = $images[0]->name . ".zip";
+
+        try {
+            $zip = Zip::create($fileName);
+            echo 'created<br/>';
+  
+            // Add File in ZipArchive
+            foreach($images as $image) {
+                $file = str_replace("/storage/", "", $image->url);
+                $zip->add(storage_path($file));
+            }
+            $zip->close();
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function all() 
+    {
         $images = $this->model->all();
         $data = [];
        
@@ -64,7 +89,8 @@ class ImageService extends BaseService
         return $data;
     }
 
-    private function formatSize($size) { 
+    private function formatSize($size) 
+    { 
         if ($size >= 1073741824) {
             $size = number_format($size / 1073741824, 2) . ' GB';
         } elseif ($size >= 1048576) {
@@ -82,7 +108,8 @@ class ImageService extends BaseService
         return $size;
     } 
 
-    private function formatDate($timestamp) {
+    private function formatDate($timestamp) 
+    {
         $timestamp = explode(" ", $timestamp);
         $date = str_replace("-", "/", $timestamp[0]);
 

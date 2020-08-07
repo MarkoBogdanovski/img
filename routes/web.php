@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'ImageController@index');
 Route::post('/', 'ImageController@store');
+Route::post('/zipfiles', 'ImageController@zipFiles');
 Route::get('/download/{image}', 'ImageController@download');
 
-Route::get('/home', function () {
-    return view('welcome');
+Route::get('/help', function () {
+    return phpinfo();
 });

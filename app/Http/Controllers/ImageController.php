@@ -41,6 +41,10 @@ class ImageController extends Controller
         abort(500, 'Could not upload image :(');
     }
 
+    public function zipFiles(Request $request, ImageService $imageService) {
+        $zipFiles = $imageService->zipFiles($request->get('files'));
+    }
+
     public function download(Request $request, $image) {
         return Storage::download('public/' . $image);
     }

@@ -44,7 +44,7 @@
                                 <tr>
                                     <td class="cs-p-1">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $image['name'] }}" id="select">
+                                            <input class="form-check-input" type="checkbox" value="{{ $image['uuid'] }}" id="select">
                                         </div>
                                     </td>
                                     <td class="cs-p-1">
@@ -91,7 +91,19 @@
         
         $("#downloadZip").on('click', function() {
             var files = JSON.parse($("#downloadZip").attr('data-files'));
-            console.log(files);
+
+            $.ajax({
+                type: 'POST',
+                url: "zipfiles",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    files
+                },
+                dataType: "text",
+                success: function(res) { 
+                    alert("Save Complete") 
+                }
+            });
         })
     </script>
 @endsection
