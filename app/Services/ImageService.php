@@ -7,7 +7,7 @@ use App\Services\BaseService;
 use App\Models\Images;
 use Webpatser\Uuid\Uuid;
 use Storage;
-use Zip;
+use Madzipper;
 
 class ImageService extends BaseService
 {
@@ -53,19 +53,17 @@ class ImageService extends BaseService
         Storage::makeDirectory("public/zip");
         
         $fileName = $images[0]->name . ".zip";
+        $files = [];
+
+        foreach($images as $image) {
+            array_push($files, storage_path(str_replace("/storage/", "/app/public/", $image->url)));
+        }
 
         try {
-            $zip = Zip::create($fileName);
-            echo 'created<br/>';
-  
-            // Add File in ZipArchive
-            foreach($images as $image) {
-                $file = str_replace("/storage/", "", $image->url);
-                $zip->add(storage_path($file));
-            }
-            $zip->close();
+            Madzipper::make(storage_path("/app/public/zip/" . $fileName))->add($files)->close();
+            return $fileName;
         } catch (Exception $e) {
-
+            dd($e);
         }
     }
 

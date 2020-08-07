@@ -101,7 +101,7 @@
                 },
                 dataType: "text",
                 success: function(res) { 
-                    alert("Save Complete") 
+                    window.location.href = "/downloadZip/" + res;
                 }
             });
         })

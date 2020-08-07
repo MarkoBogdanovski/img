@@ -17,6 +17,7 @@ Route::get('/', 'ImageController@index');
 Route::post('/', 'ImageController@store');
 Route::post('/zipfiles', 'ImageController@zipFiles');
 Route::get('/download/{image}', 'ImageController@download');
+Route::get('/downloadZip/{file}', 'ImageController@downloadZip');
 
 Route::get('/help', function () {
     return phpinfo();

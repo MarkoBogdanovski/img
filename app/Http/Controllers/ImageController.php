@@ -43,9 +43,14 @@ class ImageController extends Controller
 
     public function zipFiles(Request $request, ImageService $imageService) {
         $zipFiles = $imageService->zipFiles($request->get('files'));
+        return $zipFiles;
     }
 
     public function download(Request $request, $image) {
         return Storage::download('public/' . $image);
+    }
+
+    public function downloadZip(Request $request, $file) {
+        return response()->download(storage_path('/app/public/zip/' . $file))->deleteFileAfterSend();
     }
 }
