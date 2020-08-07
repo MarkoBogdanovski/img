@@ -20,7 +20,9 @@
             html, body {
                 padding: 0px;
                 margin: 0px;
-
+            }
+            .hidden {
+                display: none !important;
             }
             .las, .laf {
                 font-size: 2em;

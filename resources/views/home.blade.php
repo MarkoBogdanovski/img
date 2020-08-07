@@ -6,11 +6,13 @@
                 <h3 class="card-header w-100 text-center py-3">Upload Image</h3>
             </div>
         </div>
-        <div class="container mt-3">
-            <div class="row">
+        <div class="container p-0 mt-3">
+            <div class="row no-gutters ">
                 <div class="col-7">
                     <div class="d-flex h-100 align-items-center">
-                        <i class="las la-file-archive"></i>
+                        <a href="#" id="downloadZip" data-files="" class="btn btn-light d-flex align-items-center text-decoration-none hidden">
+                            <i class="las la-file-archive mr-1"></i> Download files as zip
+                        </a>
                     </div>
                 </div>
                 <div class="col-5">
@@ -28,7 +30,7 @@
                                 <tr>
                                     <th class="cs-p-1">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="all" name="select[]" id="select">
+                                            <input class="form-check-input" type="checkbox" name="select" id="checkAll">
                                         </div>
                                     </th>
                                     <th class="cs-p-1">Name</th>
@@ -42,7 +44,7 @@
                                 <tr>
                                     <td class="cs-p-1">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $image['name'] }}" name="select[]" id="select">
+                                            <input class="form-check-input" type="checkbox" value="{{ $image['name'] }}" id="select">
                                         </div>
                                     </td>
                                     <td class="cs-p-1">
@@ -68,19 +70,28 @@
 
 @section('script')
     <script>
+        $("#checkAll").on('click', function(){
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
         $("input:checkbox").on('click', function() {
-            if($(this).val() == "all") {
-                $('input:checkbox').each(function () {
-                    return $(this).attr("checked", !$(this).attr('checked'));
-                });
-            }
-            
             var arr = [];
-            $('input:checkbox:checked').each(function () {
+            $('input:checkbox:checked').not($("#checkAll")).each(function () {
                 arr.push($(this).val());
             });
 
-            console.log(arr);
+            $("#downloadZip").attr('data-files', JSON.stringify({ files: arr }));
+
+            if(arr.length > 1) {
+                $("#downloadZip").removeClass("hidden");
+            } else {
+                $("#downloadZip").addClass("hidden");
+            }
         });
+        
+        $("#downloadZip").on('click', function() {
+            var files = JSON.parse($("#downloadZip").attr('data-files'));
+            console.log(files);
+        })
     </script>
 @endsection
