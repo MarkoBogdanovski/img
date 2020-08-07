@@ -87,6 +87,11 @@ class ImageService extends BaseService
         return $data;
     }
 
+    public function deleteByUuid($uuid) 
+    {
+        return $this->model->where('uuid', $uuid)->delete();
+    }
+
     private function formatSize($size) 
     { 
         if ($size >= 1073741824) {
